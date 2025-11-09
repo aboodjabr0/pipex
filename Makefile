@@ -8,7 +8,7 @@ LIBFT_DIR = libft
 
 LIBFT = $(LIBFT_DIR)/libft.a
 
-SRCS = pipex.c
+SRCS = pipex.c\
 
 OBJS = $(SRCS:.c=.o)
 
@@ -29,14 +29,14 @@ $(NAME) : $(OBJS) $(LIBFT)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBFT) :
-	@cd libft && make --no-print-directory
-
+	@$(MAKE) -s --no-print-directory -C $(LIBFT_DIR)
 clean : 
 	@rm -f $(OBJS)
 	@echo "$(RED_BOLD)Object files cleaned 🧹$(RESET)"
 
 fclean : clean
 	@rm -f $(NAME)
+		@$(MAKE) -s --no-print-directory -C $(LIBFT_DIR) fclean
 	@echo "$(RED_BOLD)Pipex executable removed 🧹$(RESET)"
 
 re : fclean all
