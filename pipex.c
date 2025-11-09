@@ -6,69 +6,45 @@
 /*   By: asauafth <asauafth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 17:06:19 by asauafth          #+#    #+#             */
-/*   Updated: 2025/11/09 17:10:57 by asauafth         ###   ########.fr       */
+/*   Updated: 2025/11/09 15:56:55 by asauafth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include <errno.h>
-#include <string.h>
-#include <stdio.h>
-
-int	open_file(int fd, char *file)
-{
-	int	returned_fd;
-
-	if (fd == 0)
-		returned_fd = open(file, O_RDONLY);
-	else if (fd == 1)
-		returned_fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	if (returned_fd == -1)
-		exit(EXIT_FAILURE);
-	return (returned_fd);
-}
 
 void		execute_command(char *cmd, char **env)
 {
-    char *sh_argv[4];
+	char **split_cmd;
+	char *path;
 
-    if (!cmd)
-        exit(EXIT_FAILURE);
-    sh_argv[0] = "sh";
-    sh_argv[1] = "-c";
-    sh_argv[2] = cmd;
-    sh_argv[3] = NULL;
-   if (execve("/bin/sh", sh_argv, env) == -1)
-   {
-		ft_printf("Error");
-	    exit(EXIT_FAILURE);
-   }
-    exit(0);
+	split_cmd = ft_split(cmd, ' ');
+	if (!split_cmd || !split_cmd[0])
+	{
+		full_free(split_cmd);
+		exit(EXIT_FAILURE);
+	}
+	path = find_path(split_cmd[0], env);
+	if (!path)
+	{
+		ft_printf("%s: command not found\n", split_cmd[0]);
+		full_free(split_cmd);
+		exit(EXIT_FAILURE);
+	}
+	if (execve(path, split_cmd, env) == -1)
+	{
+		free(path);
+		full_free(split_cmd);
+		exit(EXIT_FAILURE);
+	}
 }
 
 void	parent_process(int *fd, char **argv, char **env)
 {
 	int file_d;
-	int ret;
-
+	
 	file_d = open_file(1, argv[4]);
-	ret = dup2(file_d, 1);
-	if (ret == -1)
-	{
-		close(file_d);
-		close(fd[0]);
-		close(fd[1]);
-		exit(EXIT_FAILURE);
-	}
-	ret = dup2(fd[0], 0);
-	if (ret == -1)
-	{
-		close(file_d);
-		close(fd[0]);
-		close(fd[1]);
-		exit(EXIT_FAILURE);
-	}
-	close(file_d);
+	dup2(file_d, 1);
+	dup2(fd[0], 0);
 	close(fd[1]);
 	execute_command(argv[3], env);
 }
@@ -76,26 +52,10 @@ void	parent_process(int *fd, char **argv, char **env)
 void	child_process(int *fd, char **argv, char **env)
 {
 	int	file_d;
-	int ret;
 
 	file_d = open_file(0, argv[1]);
-	ret = dup2(file_d, 0);
-	if (ret == -1)
-	{
-		close(file_d);
-		close(fd[0]);
-		close(fd[1]);
-		exit(EXIT_FAILURE);
-	}
-	ret = dup2(fd[1], 1);
-	if (ret == -1)
-	{
-		close(file_d);
-		close(fd[0]);
-		close(fd[1]);
-		exit(EXIT_FAILURE);
-	}
-	close(file_d);
+	dup2(file_d, 0);
+	dup2(fd[1], 1);
 	close(fd[0]);
 	execute_command(argv[2], env);
 }
