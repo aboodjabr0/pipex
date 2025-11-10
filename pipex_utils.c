@@ -6,7 +6,7 @@
 /*   By: asauafth <asauafth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:00:07 by asauafth          #+#    #+#             */
-/*   Updated: 2025/11/09 15:57:12 by asauafth         ###   ########.fr       */
+/*   Updated: 2025/11/10 11:37:25 by asauafth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ int	ft_strcmp(char *s1, char *s2)
 int	open_file(int fd, char *file)
 {
 	int	returned_fd;
-
+	
 	if (fd == 0)
 		returned_fd = open(file, O_RDONLY);
-	else if (fd == 1)
+	if (fd == 1)
 		returned_fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (returned_fd == -1)
 		exit(EXIT_FAILURE);

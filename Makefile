@@ -9,6 +9,7 @@ LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 SRCS = pipex.c\
+		pipex_utils.c
 
 OBJS = $(SRCS:.c=.o)
 
