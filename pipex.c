@@ -6,23 +6,23 @@
 /*   By: asauafth <asauafth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 17:06:19 by asauafth          #+#    #+#             */
-/*   Updated: 2025/11/10 12:29:01 by asauafth         ###   ########.fr       */
+/*   Updated: 2025/11/11 17:25:40 by asauafth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void print_error(void)
+void	print_error(void)
 {
 	ft_putstr_fd("Error the usage is :\n", 2);
 	ft_putstr_fd("./pipex < file1 cmd1 | cmd2 > file2\n ", 2);
 	exit(EXIT_FAILURE);
 }
 
-void		execute_command(char *cmd, char **env)
+void	execute_command(char *cmd, char **env)
 {
-	char **split_cmd;
-	char *path;
+	char	**split_cmd;
+	char	*path;
 
 	split_cmd = ft_split(cmd, ' ');
 	if (!split_cmd || !split_cmd[0])
@@ -49,10 +49,10 @@ void		execute_command(char *cmd, char **env)
 
 void	parent_process(int *fd, char **argv, char **env)
 {
-	int file_d;
-	
+	int	file_d;
+
 	file_d = open_file(1, argv[4]);
-	if (dup2(file_d, 1) == -1 )
+	if (dup2(file_d, 1) == -1)
 		exit(EXIT_FAILURE);
 	close(file_d);
 	if (dup2(fd[0], 0) == -1)
@@ -79,7 +79,7 @@ void	child_process(int *fd, char **argv, char **env)
 
 int	main(int argc, char **argv, char **env)
 {
-    int		fd[2];
+	int		fd[2];
 	pid_t	pid1;
 	pid_t	pid2;
 
@@ -89,7 +89,7 @@ int	main(int argc, char **argv, char **env)
 		exit(EXIT_FAILURE);
 	pid1 = fork();
 	if (pid1 == -1)
-		exit(EXIT_FAILURE);	
+		exit(EXIT_FAILURE);
 	if (pid1 == 0)
 		child_process(fd, argv, env);
 	pid2 = fork();

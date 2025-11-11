@@ -6,7 +6,7 @@
 /*   By: asauafth <asauafth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:00:07 by asauafth          #+#    #+#             */
-/*   Updated: 2025/11/10 11:37:25 by asauafth         ###   ########.fr       */
+/*   Updated: 2025/11/11 17:27:06 by asauafth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_strcmp(char *s1, char *s2)
 int	open_file(int fd, char *file)
 {
 	int	returned_fd;
-	
+
 	if (fd == 0)
 		returned_fd = open(file, O_RDONLY);
 	if (fd == 1)
@@ -41,10 +41,10 @@ int	open_file(int fd, char *file)
 	return (returned_fd);
 }
 
-char *get_env(char *name, char **env)
+char	*get_env(char *name, char **env)
 {
-	int i;
-	size_t len;
+	int		i;
+	size_t	len;
 
 	if (!name || !env)
 		return (NULL);
@@ -58,6 +58,7 @@ char *get_env(char *name, char **env)
 	}
 	return (NULL);
 }
+
 void	full_free(char **str)
 {
 	int	i;
@@ -73,12 +74,12 @@ void	full_free(char **str)
 	free(str);
 }
 
-char *find_path(char *cmd, char **env)
+char	*find_path(char *cmd, char **env)
 {
-	int	i;
-	char *exec;
-	char **fullpath;
-	char *path_needed;
+	int		i;
+	char	*exec;
+	char	**fullpath;
+	char	*path_needed;
 
 	if (!get_env("PATH", env))
 		return (NULL);

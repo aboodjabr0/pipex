@@ -10,31 +10,30 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef PIPEX_H
-#define PIPEX_H
+#ifndef PIPEX_H
+# define PIPEX_H
 
-#include <stdio.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <sys/wait.h>
-#include "libft/libft.h"
-
+# include "libft/libft.h"
+# include <fcntl.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
 /*******************/
 /*     pipex.c     */
 /*******************/
-void		execute_command(char *cmd, char **env);
+void	execute_command(char *cmd, char **env);
 void	parent_process(int *fd, char **argv, char **env);
 void	child_process(int *fd, char **argv, char **env);
 
 /**************************/
 /*        pipex_utils.c   */
 /**************************/
-int	ft_strcmp(char *s1, char *s2);
-int	open_file(int fd, char *file);
-char *get_env(char *name, char **env);
+int		ft_strcmp(char *s1, char *s2);
+int		open_file(int fd, char *file);
+char	*get_env(char *name, char **env);
 void	full_free(char **str);
-char *find_path(char *cmd, char **env);
+char	*find_path(char *cmd, char **env);
 
 #endif

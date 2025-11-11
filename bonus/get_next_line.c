@@ -6,7 +6,7 @@
 /*   By: asauafth <asauafth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 13:10:23 by asauafth          #+#    #+#             */
-/*   Updated: 2025/11/11 00:32:25 by asauafth         ###   ########.fr       */
+/*   Updated: 2025/11/11 17:43:33 by asauafth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static char	*read_file(int fd, char *full_file, int *bytes_read)
 		free(full_file);
 		return (NULL);
 	}
-	while ((full_file == NULL || !ft_strchr(full_file, '\n')) && *bytes_read > 0)
+	while ((full_file == NULL || !ft_strchr(full_file, '\n')))
 	{
 		*bytes_read = read(fd, s_chunk, BUFFER_SIZE);
 		if (*bytes_read == -1)

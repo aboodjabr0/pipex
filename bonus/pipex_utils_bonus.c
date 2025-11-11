@@ -6,7 +6,7 @@
 /*   By: asauafth <asauafth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 23:34:40 by asauafth          #+#    #+#             */
-/*   Updated: 2025/11/11 00:45:26 by asauafth         ###   ########.fr       */
+/*   Updated: 2025/11/11 17:44:59 by asauafth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ int	ft_strcmp(char *s1, char *s2)
 int	open_file(char *file, int fd)
 {
 	int	returned_fd;
-    
+
 	if (fd == 0)
 		returned_fd = open(file, O_RDONLY);
-	else if (fd == 1)
+	if (fd == 1)
 		returned_fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else if (fd == 2)
+	if (fd == 2)
 		returned_fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (returned_fd == -1)
 		exit(EXIT_FAILURE);
@@ -58,10 +58,10 @@ void	full_free(char **str)
 	free(str);
 }
 
-char *get_env(char *name, char **env)
+char	*get_env(char *name, char **env)
 {
-	int i;
-	size_t len;
+	int		i;
+	size_t	len;
 
 	if (!name || !env)
 		return (NULL);
@@ -76,12 +76,12 @@ char *get_env(char *name, char **env)
 	return (NULL);
 }
 
-char *find_path(char *cmd, char **env)
+char	*find_path(char *cmd, char **env)
 {
-	int	i;
-	char *exec;
-	char **fullpath;
-	char *path_needed;
+	int		i;
+	char	*exec;
+	char	**fullpath;
+	char	*path_needed;
 
 	if (!get_env("PATH", env))
 		return (NULL);
